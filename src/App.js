@@ -8,6 +8,8 @@ import { products } from "./data";
 import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [produits, setProduits] = useState(products);
+  const [cart, setcart] = useState([]);
+  const [totalPanier, settotalPanier] = useState(0);
   // add new Product
   const handleAdd = (newProd) => {
     const prod = {
@@ -24,11 +26,105 @@ function App() {
   const handleDelete = (iddelprod) => {
     setProduits(produits.filter((el) => el.id != iddelprod));
   };
+  // add to cart
+  const handleAddToCart = (prodA) => {
+    const findedProd = cart.find((el) => el.id == prodA.id);
+    if (findedProd) {
+      return alert("prod deja ajouté");
+    }
+    // console.log(prodA);
+    const prod = {
+      ...prodA,
+      QtS: prodA.QtS - 1,
+      QtA: 1,
+      totalPrice: Number(prodA.price),
+    };
+    setcart([...cart, prod]);
+    setProduits(
+      produits.map((el) =>
+        el.id == prodA.id ? { ...el, QtS: el.QtS - 1 } : el
+      )
+    );
+    settotalPanier(totalPanier + Number(prodA.price));
+  };
+  // add quantity
+  const handleIncrement = (id, price) => {
+    setcart(
+      cart.map((el) =>
+        el.id == id
+          ? {
+              ...el,
+              QtA: el.QtA + 1,
+              QtS: el.QtS - 1,
+              totalPrice: el.totalPrice + Number(price),
+            }
+          : el
+      )
+    );
+    settotalPanier(totalPanier + price);
+    setProduits(
+      produits.map((el) => (el.id == id ? { ...el, QtS: el.QtS - 1 } : el))
+    );
+  };
+  // decrement
+  const handleDecrement = (id, price, qta) => {
+    setcart(
+      cart.map((el) =>
+        el.id == id
+          ? {
+              ...el,
+              QtA: el.QtA > 1 ? el.QtA - 1 : el.QtA,
+              QtS: el.QtA > 1 ? el.QtS + 1 : el.QtS,
+              totalPrice:
+                el.QtA > 1 ? el.totalPrice - Number(price) : el.totalPrice,
+            }
+          : el
+      )
+    );
+    settotalPanier(qta > 1 ? totalPanier - price : totalPanier);
+    setProduits(
+      produits.map((el) =>
+        el.id == id ? { ...el, QtS: qta > 1 ? el.QtS + 1 : el.QtS } : el
+      )
+    );
+  };
+  // delete prod from panier
+  const delProdPanier = (id, qta, pricetot) => {
+    setcart(cart.filter((el) => el.id != id));
+    setProduits(
+      produits.map((el) => (el.id == id ? { ...el, QtS: el.QtS + qta } : el))
+    );
+    settotalPanier(totalPanier - Number(pricetot));
+  };
+  // like
+  const handleLike = (id) => {
+    setProduits(
+      produits.map((el) =>
+        el.id == id
+          ? {
+              ...el,
+              rating: { ...el.rating, count: Number(el.rating.count) + 1 },
+            }
+          : el
+      )
+    );
+  };
   return (
     <div className="App">
       <AddProduct handleAddprops={handleAdd} />
-      <ProductList propsproduits={produits} del={handleDelete} />
-      <Panier />
+      <ProductList
+        propsproduits={produits}
+        del={handleDelete}
+        handleAddToCart={handleAddToCart}
+        handleLike={handleLike}
+      />
+      <Panier
+        cart={cart}
+        totalPanier={totalPanier}
+        handleIncrement={handleIncrement}
+        handleDecrement={handleDecrement}
+        delProdPanier={delProdPanier}
+      />
     </div>
   );
 }

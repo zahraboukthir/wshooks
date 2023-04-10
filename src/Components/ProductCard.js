@@ -1,10 +1,16 @@
 import React from "react";
+import { useState } from "react";
+import "./prod.css";
 import { Button, Card } from "react-bootstrap";
-
-const ProductCard = ({
-  propsprod: { title, price, description, category, image, rating, QtS, id },
-  del,
-}) => {
+import { AiTwotoneLike } from "react-icons/ai";
+const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
+  const { title, price, description, category, image, rating, QtS, id } =
+    propsprod;
+  const [like, setlike] = useState(false);
+  const likeProd = () => {
+    setlike(true);
+    handleLike(propsprod.id);
+  };
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={image} />
@@ -19,8 +25,15 @@ const ProductCard = ({
         <Button onClick={() => del(id)} variant="primary">
           X
         </Button>
-        <Button variant="primary">Like</Button>
-        <Button variant="primary">Add to Cart</Button>
+
+        <Button onClick={() => handleAddToCart(propsprod)} variant="primary">
+          Add to Cart
+        </Button>
+        <div>
+          <AiTwotoneLike onClick={likeProd} className={like ? "like" : null} />
+
+          <p>{rating.count}</p>
+        </div>
       </Card.Body>
     </Card>
   );

@@ -2,7 +2,13 @@ import React from "react";
 import ProdPanie from "./ProdPanie";
 import { Table } from "react-bootstrap";
 
-const Panier = () => {
+const Panier = ({
+  cart,
+  totalPanier,
+  delProdPanier,
+  handleIncrement,
+  handleDecrement,
+}) => {
   return (
     <Table striped bordered hover>
       <thead>
@@ -15,7 +21,19 @@ const Panier = () => {
         </tr>
       </thead>
       <tbody>
-        <ProdPanie />
+        {cart.map((el) => (
+          <ProdPanie
+            key={el.id}
+            prod={el}
+            handleDecrement={handleDecrement}
+            handleIncrement={handleIncrement}
+            delProdPanier={delProdPanier}
+          />
+        ))}
+        <tr>
+          <td>Total</td>
+          <td>{totalPanier} dt</td>
+        </tr>
       </tbody>
     </Table>
   );

@@ -1,24 +1,41 @@
 import React from "react";
 
-const ProdPanie = () => {
+const ProdPanie = ({
+  prod,
+  delProdPanier,
+  handleIncrement,
+  handleDecrement,
+}) => {
   return (
     <tr>
       <td>
-        <img
-          src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-          alt=""
-          width={"30px"}
-        />
+        <img src={prod.image} alt="" width={"30px"} />
       </td>
-      <td>Fjallraven</td>
-      <td>109.95 dt</td>
+      <td>{prod.title}</td>
+      <td>{prod.price} dt</td>
       <td>
-        <button>+</button> <p>1</p> <button>-</button>
+        <button
+          onClick={() =>
+            prod.QtS
+              ? handleIncrement(prod.id, prod.price)
+              : alert("stock insuffisant !!")
+          }
+        >
+          +
+        </button>{" "}
+        <p>{prod.QtA}</p>{" "}
+        <button onClick={() => handleDecrement(prod.id, prod.price, prod.QtA)}>
+          -
+        </button>
       </td>
-      <td>109.95 dt</td>
+      <td>{prod.totalPrice} dt</td>
       <td>
         {" "}
-        <button>X</button>
+        <button
+          onClick={() => delProdPanier(prod.id, prod.QtA, prod.totalPrice)}
+        >
+          X
+        </button>
       </td>
     </tr>
   );

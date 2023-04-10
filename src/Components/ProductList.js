@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "./ProductCard";
 
-const ProductList = ({ propsproduits, del }) => {
+const ProductList = ({ propsproduits, handleLike, del, handleAddToCart }) => {
   return (
     <div
       style={{
@@ -12,7 +12,13 @@ const ProductList = ({ propsproduits, del }) => {
       }}
     >
       {propsproduits.map((prod) => (
-        <ProductCard propsprod={prod} key={prod.id} del={del} />
+        <ProductCard
+          handleAddToCart={handleAddToCart}
+          propsprod={prod}
+          key={prod.id}
+          del={del}
+          handleLike={handleLike}
+        />
       ))}
     </div>
   );
