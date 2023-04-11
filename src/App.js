@@ -6,6 +6,8 @@ import { useState } from "react";
 import { products } from "./data";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavigationBar from "./Components/NavigationBar";
+import { Button } from "react-bootstrap";
 function App() {
   const [produits, setProduits] = useState(products);
   const [cart, setcart] = useState([]);
@@ -109,11 +111,66 @@ function App() {
       )
     );
   };
+  const [show, setshow] = useState(false);
+  // search
+  // search by Name
+  const [searchBYName, setsearchBYName] = useState("");
+  const handleSbName = (name) => {
+    setsearchBYName(name);
+  };
+  const handleSbChar = (char) => {
+    setsearchBYName(char);
+  };
+  // search by category
+  const [searchByCategory, setsearchByCategory] = useState("all");
+  const handleCategory = (serchedCat) => {
+    setsearchByCategory(serchedCat);
+  };
+  // search by rate
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate) => {
+    setRating(rate);
+
+    // other logic
+  };
+  const handleReset = () => {
+    // Set the initial value
+    setRating(0);
+  };
   return (
-    <div className="App">
-      <AddProduct handleAddprops={handleAdd} />
+    <div className="container">
+      <NavigationBar
+        handleReset={handleReset}
+        handleCategory={handleCategory}
+        handleSbName={handleSbName}
+        handleSbChar={handleSbChar}
+        handleRating={handleRating}
+        rating={rating}
+      />
+      <button
+        style={{ width: "100px", margin: "10px auto" }}
+        onClick={() => setshow(!show)}
+      >
+        Add New Product
+      </button>
+      {show ? <AddProduct handleAddprops={handleAdd} /> : ""}
       <ProductList
-        propsproduits={produits}
+        propsproduits={
+          searchByCategory == "all"
+            ? produits.filter(
+                (el) =>
+                  el.title.toLowerCase().includes(searchBYName.toLowerCase()) &&
+                  parseInt(el.rating.rate) >= rating
+              )
+            : produits.filter(
+                (el) =>
+                  el.title.toLowerCase().includes(searchBYName.toLowerCase()) &&
+                  el.category == searchByCategory &&
+                  parseInt(el.rating.rate) >= rating
+              )
+        }
         del={handleDelete}
         handleAddToCart={handleAddToCart}
         handleLike={handleLike}

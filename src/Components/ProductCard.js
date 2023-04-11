@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./prod.css";
 import { Button, Card } from "react-bootstrap";
 import { AiTwotoneLike } from "react-icons/ai";
+import { Rating } from "react-simple-star-rating";
 const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
   const { title, price, description, category, image, rating, QtS, id } =
     propsprod;
@@ -11,11 +12,12 @@ const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
     setlike(true);
     handleLike(propsprod.id);
   };
+
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={image} />
       <Card.Body>
-        <Card.Text>rate</Card.Text>
+        <Rating initialValue={parseInt(rating.rate)} readonly />
         <Card.Text>{category}</Card.Text>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
@@ -29,7 +31,7 @@ const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
         <Button onClick={() => handleAddToCart(propsprod)} variant="primary">
           Add to Cart
         </Button>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <AiTwotoneLike onClick={likeProd} className={like ? "like" : null} />
 
           <p>{rating.count}</p>

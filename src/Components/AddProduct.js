@@ -23,8 +23,18 @@ const AddProduct = ({ handleAddprops }) => {
   };
   return (
     <>
-      <form onSubmit={add}>
-        <div>
+      <form
+        onSubmit={add}
+        style={{
+          display: "flex",
+          margin: "12px auto ",
+          justifyContent: "space-around",
+          flexDirection: "column",
+          width: "300px",
+          gap: "10px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Product Image</label>
           <input
             type="url"
@@ -32,7 +42,7 @@ const AddProduct = ({ handleAddprops }) => {
             onChange={(e) => setImage(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Product Name</label>
           <input
             type="text"
@@ -40,7 +50,7 @@ const AddProduct = ({ handleAddprops }) => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Product Price</label>
           <input
             type="number"
@@ -48,7 +58,7 @@ const AddProduct = ({ handleAddprops }) => {
             onChange={(e) => setprice(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Product Category</label>
           <input
             type="text"
@@ -56,7 +66,7 @@ const AddProduct = ({ handleAddprops }) => {
             onChange={(e) => setcategory(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Quantity</label>
           <input
             type="number"
@@ -64,7 +74,7 @@ const AddProduct = ({ handleAddprops }) => {
             onChange={(e) => setqteS(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{ display: "flex", gap: "10px" }}>
           <label htmlFor="">Product descreption </label>
           <input
             type="text"
