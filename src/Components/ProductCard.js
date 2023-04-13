@@ -4,6 +4,7 @@ import "./prod.css";
 import { Button, Card } from "react-bootstrap";
 import { AiTwotoneLike } from "react-icons/ai";
 import { Rating } from "react-simple-star-rating";
+import { Link } from "react-router-dom";
 const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
   const { title, price, description, category, image, rating, QtS, id } =
     propsprod;
@@ -31,6 +32,10 @@ const ProductCard = ({ handleLike, propsprod, del, handleAddToCart }) => {
         <Button onClick={() => handleAddToCart(propsprod)} variant="primary">
           Add to Cart
         </Button>
+        <Link to={`/details/${id}`}>
+          {" "}
+          <Button variant="primary">See Details</Button>
+        </Link>
         <div style={{ display: "flex", gap: "10px" }}>
           <AiTwotoneLike onClick={likeProd} className={like ? "like" : null} />
 

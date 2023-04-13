@@ -7,7 +7,9 @@ import { products } from "./data";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavigationBar from "./Components/NavigationBar";
-import { Button } from "react-bootstrap";
+
+import { Route, Routes } from "react-router-dom";
+import ProductDetails from "./Components/ProductDetails";
 function App() {
   const [produits, setProduits] = useState(products);
   const [cart, setcart] = useState([]);
@@ -149,39 +151,63 @@ function App() {
         handleRating={handleRating}
         rating={rating}
       />
-      <button
-        style={{ width: "100px", margin: "10px auto" }}
-        onClick={() => setshow(!show)}
-      >
-        Add New Product
-      </button>
-      {show ? <AddProduct handleAddprops={handleAdd} /> : ""}
-      <ProductList
-        propsproduits={
-          searchByCategory == "all"
-            ? produits.filter(
-                (el) =>
-                  el.title.toLowerCase().includes(searchBYName.toLowerCase()) &&
-                  parseInt(el.rating.rate) >= rating
-              )
-            : produits.filter(
-                (el) =>
-                  el.title.toLowerCase().includes(searchBYName.toLowerCase()) &&
-                  el.category == searchByCategory &&
-                  parseInt(el.rating.rate) >= rating
-              )
-        }
-        del={handleDelete}
-        handleAddToCart={handleAddToCart}
-        handleLike={handleLike}
-      />
-      <Panier
-        cart={cart}
-        totalPanier={totalPanier}
-        handleIncrement={handleIncrement}
-        handleDecrement={handleDecrement}
-        delProdPanier={delProdPanier}
-      />
+
+      <Routes>
+        <Route
+          path="/add"
+          element={<AddProduct handleAddprops={handleAdd} />}
+        />
+        <Route
+          path="/"
+          element={
+            <ProductList
+              propsproduits={
+                searchByCategory == "all"
+                  ? produits.filter(
+                      (el) =>
+                        el.title
+                          .toLowerCase()
+                          .includes(searchBYName.toLowerCase()) &&
+                        parseInt(el.rating.rate) >= rating
+                    )
+                  : produits.filter(
+                      (el) =>
+                        el.title
+                          .toLowerCase()
+                          .includes(searchBYName.toLowerCase()) &&
+                        el.category == searchByCategory &&
+                        parseInt(el.rating.rate) >= rating
+                    )
+              }
+              del={handleDelete}
+              handleAddToCart={handleAddToCart}
+              handleLike={handleLike}
+            />
+          }
+        />
+        <Route
+          path="/panier"
+          element={
+            <Panier
+              cart={cart}
+              totalPanier={totalPanier}
+              handleIncrement={handleIncrement}
+              handleDecrement={handleDecrement}
+              delProdPanier={delProdPanier}
+            />
+          }
+        />
+        <Route
+          path="/details/:idprod"
+          element={
+            <ProductDetails
+              produits={produits}
+              handleAddToCart={handleAddToCart}
+              handleLike={handleLike}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
